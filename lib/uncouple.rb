@@ -1,5 +1,5 @@
 require "uncouple/version"
+require "uncouple/action"
 
 module Uncouple
-  # Your code goes here...
 end
