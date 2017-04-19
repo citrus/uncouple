@@ -1,5 +1,6 @@
 # Uncouple
 
+[![Gem Version](https://badge.fury.io/rb/uncouple.svg)](https://badge.fury.io/rb/uncouple)
 [![Build Status](https://travis-ci.org/citrus/uncouple.svg?branch=master)](https://travis-ci.org/citrus/uncouple)
 
 Uncouple your business logic from Rails or whatever other framework you may be using.
