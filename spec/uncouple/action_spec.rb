@@ -13,13 +13,22 @@ RSpec.describe Uncouple::Action do
   describe "#initialize" do
 
     it "initializes with params when strong parameters is not present" do
-      expect(ActionController::Parameters).to receive(:new).and_return(params)
+      hide_const("ActionController::Parameters")
+      hide_const("ActiveSupport::HashWithIndifferentAccess")
       expect(action.params).to eq(params)
     end
 
     it "initializes and converts params to strong parameters" do
       strong_params = ActionController::Parameters.new(params)
       expect(action.params).to eq(strong_params)
+      expect(action.params).to be_a(ActionController::Parameters)
+    end
+
+    it "initializes and converts params to hash with indifferent access" do
+      hide_const("ActionController::Parameters")
+      indifferent_params = ActiveSupport::HashWithIndifferentAccess.new(params)
+      expect(action.params).to eq(indifferent_params)
+      expect(action.params).to be_a(ActiveSupport::HashWithIndifferentAccess)
     end
 
   end
