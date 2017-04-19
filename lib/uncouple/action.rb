@@ -3,8 +3,8 @@ module Uncouple
 
     attr_reader :params
 
-    def initialize(params={})
-      @params = params
+    def initialize(params=nil)
+      @params = convert_to_strong_parameters(params)
     end
 
     def perform
@@ -13,6 +13,19 @@ module Uncouple
 
     def success?
       @success
+    end
+
+    def failure?
+      !success?
+    end
+
+  private
+
+    def convert_to_strong_parameters(params)
+      return if params.nil?
+      return params unless defined?(ActionController::Parameters)
+      return params if params.is_a?(ActionController::Parameters)
+      ActionController::Parameters.new(params)
     end
 
   end

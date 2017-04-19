@@ -1,4 +1,5 @@
 require "bundler/setup"
+require "strong_parameters"
 require "uncouple"
 
 RSpec.configure do |config|
