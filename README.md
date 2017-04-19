@@ -1,8 +1,8 @@
 # Uncouple
 
-[![Build Status](https://travis-ci.org/citrus/slavery.svg?branch=master)](https://travis-ci.org/citrus/slavery)
+[![Build Status](https://travis-ci.org/citrus/uncouple.svg?branch=master)](https://travis-ci.org/citrus/uncouple)
 
-Uncouple your business logic from rails.
+Uncouple your business logic from Rails or whatever other framework you may be using.
 
 
 ## Installation
@@ -12,6 +12,13 @@ Add this line to your application's Gemfile:
 ```ruby
 gem 'uncouple'
 ```
+
+If you're on rails:
+
+```ruby
+gem 'uncouple', require: 'uncouple/rails'
+```
+
 
 And then execute:
 
@@ -34,7 +41,9 @@ Use actions to encapsulate your business logic.
 
 ```rb
 # app/actions/metric/create_action.rb
-class Metric::CreateAction < Metric::NewAction
+class Metric::CreateAction < Uncouple::Action
+
+  attr_reader :metric
 
   def perform
     create_metric!
@@ -46,7 +55,7 @@ class Metric::CreateAction < Metric::NewAction
   end
 
   def notify!
-    NewMetricMailer.notification(@metric).deliver
+    NewMetricMailer.notification(metric).deliver
   end
 
   def success?
