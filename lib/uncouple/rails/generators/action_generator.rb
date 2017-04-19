@@ -13,7 +13,7 @@ module Uncouple
         raise "Invalid Action Name" if name.blank?
         template "app/actions/action.rb", "app/actions/#{name}_action.rb"
         if defined?(RSpec)
-          template "spec/actions/action_spec.rb", "spec/actions/#{feature}/#{name}_action_spec.rb"
+          template "spec/actions/action_spec.rb", "spec/actions/#{name}_action_spec.rb"
         end
       end
 
