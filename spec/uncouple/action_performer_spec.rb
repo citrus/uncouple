@@ -2,6 +2,8 @@ require "spec_helper"
 
 RSpec.describe Uncouple::ActionPerformer do
 
+  User = Struct.new(:email)
+
   class Controller
 
     include Uncouple::ActionPerformer
@@ -33,6 +35,13 @@ RSpec.describe Uncouple::ActionPerformer do
 
     it "initializes an action with params" do
       expect(SampleAction).to receive(:new).with(something: "nothing")
+      controller.perform(SampleAction)
+    end
+
+    it "merges current user into params" do
+      @user = User.new("test@example.com")
+      expect(controller).to receive(:current_user).and_return(@user).at_least(:once)
+      expect(SampleAction).to receive(:new).with(something: "nothing", current_user: @user)
       controller.perform(SampleAction)
     end
 

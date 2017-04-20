@@ -19,6 +19,10 @@ module Uncouple
       !success?
     end
 
+    def current_user
+      @current_user ||= params.delete(:current_user)
+    end
+
   private
 
     def recast_parameters(params)

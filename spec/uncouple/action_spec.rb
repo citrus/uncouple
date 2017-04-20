@@ -65,4 +65,26 @@ RSpec.describe Uncouple::Action do
 
   end
 
+  describe "#current_user" do
+
+    User = Struct.new(:email)
+
+    let(:user) { User.new("test@example.com") }
+
+    it "returns nil by default" do
+      expect(action.current_user).to be_nil
+    end
+
+    it "returns user passed in by params" do
+      action.params.merge!(current_user: user)
+      expect(action.current_user).to eq(user)
+    end
+
+    it "delete current_user from params" do
+      action.params.merge!(current_user: user)
+      action.current_user
+      expect(action.params[:current_user]).to be_nil
+    end
+
+  end
 end
