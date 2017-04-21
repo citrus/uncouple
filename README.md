@@ -101,6 +101,24 @@ class MetricsController < ApplicationController
 end
 ```
 
+If available, `Uncouple::ActionPerformer` injects your controller's `current_user` into the action and calls `perform_with_authorization` under the hood. Overwrite `authorize!` in your action to ensure the user has permission to call the action.
+
+Actions also include a `current_user` helper method.
+
+For example, you can use pundit like this:
+
+```rb
+class Metric::CreateAction < Uncouple::Action
+
+  def authorize!
+    Pundit.authorize(current_user, Metric, :create?)
+  end
+
+  # ...
+
+end
+```
+
 
 ## Development
 

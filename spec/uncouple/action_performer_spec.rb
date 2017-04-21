@@ -50,9 +50,9 @@ RSpec.describe Uncouple::ActionPerformer do
       controller.perform(SampleAction, foo: "bar")
     end
 
-    it "calls to perform the action" do
+    it "calls to perform the action with authorization" do
+      expect_any_instance_of(SampleAction).to receive(:perform_with_authorization)
       controller.perform(SampleAction)
-      expect(controller.action.foo).to eq("bar")
     end
 
     it "yields a block when action is successful" do

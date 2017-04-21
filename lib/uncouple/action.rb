@@ -1,5 +1,9 @@
+require "uncouple/action/authorization"
+
 module Uncouple
   class Action
+
+    include Uncouple::Action::Authorization
 
     attr_reader :params
 
@@ -17,10 +21,6 @@ module Uncouple
 
     def failure?
       !success?
-    end
-
-    def current_user
-      @current_user ||= params.delete(:current_user)
     end
 
   private
