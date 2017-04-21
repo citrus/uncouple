@@ -12,6 +12,11 @@ RSpec.describe Uncouple::Action do
 
   describe "#initialize" do
 
+    it "converts nil params to a hash" do
+      action = Uncouple::Action.new(nil)
+      expect(action.params).to_not be_nil
+    end
+
     it "initializes with params when strong parameters is not present" do
       hide_const("ActionController::Parameters")
       hide_const("ActiveSupport::HashWithIndifferentAccess")
