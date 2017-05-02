@@ -38,16 +38,14 @@ RSpec.describe Uncouple::ActionPerformer do
       controller.perform(SampleAction)
     end
 
-    it "merges current user into params" do
-      @user = User.new("test@example.com")
-      expect(controller).to receive(:current_user).and_return(@user).at_least(:once)
-      expect(SampleAction).to receive(:new).with(something: "nothing", current_user: @user)
-      controller.perform(SampleAction)
-    end
-
     it "initializes an action with custom params" do
       expect(SampleAction).to receive(:new).with(foo: "bar")
       controller.perform(SampleAction, foo: "bar")
+    end
+
+    it "calls to add the current user to the params" do
+      expect(controller).to receive(:params_with_current_user)
+      controller.perform(SampleAction)
     end
 
     it "calls to perform the action with authorization" do
@@ -73,6 +71,29 @@ RSpec.describe Uncouple::ActionPerformer do
     it "returns the action instance" do
       @action = controller.perform(SampleAction)
       expect(@action).to be_a(SampleAction)
+    end
+
+  end
+
+  describe "#params_with_current_user" do
+
+    let(:params) do
+      { a: "b" }
+    end
+
+    it "does nothing when the params are nil" do
+      expect(controller.send(:params_with_current_user, nil)).to be_nil
+    end
+
+    it "does nothing when the context doesn't respond to current_user" do
+      expect(controller.send(:params_with_current_user, params)).to eq(params)
+    end
+
+    it "merges current user into params" do
+      @user = User.new("test@example.com")
+      expect(controller).to receive(:current_user).and_return(@user).at_least(:once)
+      merged = controller.send(:params_with_current_user, params)
+      expect(merged).to eq(a: "b", current_user: @user)
     end
 
   end
