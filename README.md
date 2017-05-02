@@ -119,6 +119,19 @@ class Metric::CreateAction < Uncouple::Action
 end
 ```
 
+## Instrumentation through ActiveSupport::Notifications
+
+Version 0.2.0 adds support for instrumentation on `perform` and `authorize!` using ActiveSupport::Notifications. Subscribe to notifications using an initializer, and do whatever you like with the data.
+
+```rb
+# config/initializers/notifications.rb
+ActiveSupport::Notifications.subscribe /.*(Action)#(perform|authorize!)/ do |*args|
+  event = ActiveSupport::Notifications::Event.new(*args)
+  Rails.logger.info "#{event.name} completed in #{event.duration}ms"
+end
+
+#=> Metric::IndexAction#perform completed in 8.253ms
+```
 
 ## Development
 
