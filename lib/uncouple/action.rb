@@ -23,6 +23,11 @@ module Uncouple
       !success?
     end
 
+    def perform?
+      perform
+      success?
+    end
+
   private
 
     def recast_parameters(params)

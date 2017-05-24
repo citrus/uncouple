@@ -70,4 +70,15 @@ RSpec.describe Uncouple::Action do
 
   end
 
+  describe "#perform?" do
+
+    it "calls to perform and returns success" do
+      expect(action).to receive(:perform)
+      expect(action).to receive(:success?).and_return(true)
+      expect(action.perform?).to be(true)
+    end
+
+  end
+
+
 end
