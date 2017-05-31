@@ -23,8 +23,9 @@ module Uncouple
       !success?
     end
 
-    def perform?
+    def perform?(&block)
       perform
+      block.call(self) if block_given?
       success?
     end
 

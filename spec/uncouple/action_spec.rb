@@ -78,6 +78,14 @@ RSpec.describe Uncouple::Action do
       expect(action.perform?).to be(true)
     end
 
+    it "accepts a block with an action parameter" do
+      expect(action).to receive(:perform)
+      expect(action).to receive(:success?).and_return(true)
+      action.perform? do |block_action|
+        expect(block_action).to eq(action)
+      end
+    end
+
   end
 
 
